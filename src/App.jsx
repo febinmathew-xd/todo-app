@@ -18,11 +18,17 @@ function App() {
     setTodos([...todos, {id: Date.now(), task:task, completed:false}]);
   };
 
-  // delete
+  // batch delete todos
 
-  const deleteTodos = ()=> {
+  const batchDelete = ()=> {
     setTodos(todos.filter((todo)=> !selectedIds.includes(todo.id)));
     setSelectedIds([])
+  }
+
+  // delete single todo
+
+  const deleteTodo = (id) => {
+    setTodos(todos.filter(todo => todo.id !== id));
   }
 
   // update
@@ -40,7 +46,9 @@ function App() {
     )
   }
 
-  const completeTodos = (id) =>{
+  // complete a todo
+  const completeTodo = (id) =>{
+    setTodos(todos.map(todo=> (todo.id===id ? {...todo, completed:!todo.completed}: todo)))
 
   }
 
@@ -52,7 +60,7 @@ function App() {
         <main className='w-full h-screen bg-cyan-100 pt-4 '>
           <div className='container w-[800px] p-10 mx-auto h-screen bg-cyan-300/50 rounded-xl'>
             <InputBox addTodo={addTodo}/>
-            <ActionButtonContainer count = {selectedIds.length} deleteTodos={deleteTodos} completeTodos={completeTodos} />
+            <ActionButtonContainer count = {selectedIds.length} deleteTodos={batchDelete} />
 
             {activeTodos.length> 0 &&
             <TodoList title={'Active'}>
@@ -61,7 +69,10 @@ function App() {
                  key={todo.id}
                  toggleSelection={toggleSelection}
                  isSelected={selectedIds.includes(todo.id)}
-                 todo={todo} />
+                 todo={todo}
+                 completeTodo = {completeTodo}
+                 deleteTodo = {deleteTodo}
+                 updateTodo = {updateTodo} />
               ))}
             </TodoList>
 }
@@ -71,8 +82,11 @@ function App() {
                 <TodoItem
                 key={todo.id}
                 toggleSelection={toggleSelection}
-                isSelected={isSelected}
+                isSelected={selectedIds.includes(todo.id)}
                 todo={todo}
+                complete={completeTodo}
+                deleteTodo = {deleteTodo}
+                updateTodo = {updateTodo}
                 />
               ))}
 

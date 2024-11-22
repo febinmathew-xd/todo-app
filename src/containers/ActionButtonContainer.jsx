@@ -1,13 +1,13 @@
 import React from 'react'
 import ActionButton from '../components/ActionButton'
 
-function ActionButtonContainer({deleteTodos, completeTodos, count}) {
+function ActionButtonContainer({deleteTodos, count}) {
     
   return (
-    <div className='w-[400px] mx-auto flex justify-between my-6'>
+    <div className='w-full pr-6 flex justify-end my-6'>
         {count >0 ?
-        <><ActionButton onClickAction = {completeTodos} label={'COMPLETE'} color={'green'}  count={count} />
-        <ActionButton onClickAction = {deleteTodos} label={'DELETE'} color={'red'} count={count} /> </> : ''}
+
+        <ActionButton onClickAction = {deleteTodos} label={'DELETE'} color={'red'} count={count} /> : ''}
     </div>
   )
 }
